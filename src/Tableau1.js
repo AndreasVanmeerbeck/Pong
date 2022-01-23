@@ -23,7 +23,7 @@ class Tableau1 extends Phaser.Scene {
         //Son
         this.melee= this.sound.add('melee', {loop: true});
         this.melee.volume = 0.08;
-        //this.melee.play();
+        this.melee.play();
 
         this.hit= this.sound.add('hit', {loop: false});
         this.hit.volume = 0.08;
