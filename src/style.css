@@ -31,7 +31,7 @@ canvas{
     outline: 1px solid #333;
 }
 #scores{
-    color: #bf7bff;
+    color: #ffffff;
     font-size : 90px;
     display: flex;
     justify-content: center;
@@ -41,7 +41,7 @@ canvas{
 }
 
 .score{
-    color: #ffffff
+    color: #63f8ff
 }
 .name{
     font-size: 3vw;

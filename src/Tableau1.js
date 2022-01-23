@@ -10,7 +10,8 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('raquetteg', 'assets/padg.png');
         this.load.image('raquetted', 'assets/padd.png');
 
-
+        this.load.audio('melee', 'assets/son/melee.mp3')
+        this.load.audio('hit', 'assets/son/hit.wav')
 
     }
 
@@ -19,6 +20,13 @@ class Tableau1 extends Phaser.Scene {
         this.hauteur=500;
         this.largeur=1000;
 
+        //Son
+        this.melee= this.sound.add('melee', {loop: true});
+        this.melee.volume = 0.08;
+        //this.melee.play();
+
+        this.hit= this.sound.add('hit', {loop: false});
+        this.hit.volume = 0.08;
 
         //Fond
         this.bg = this.add.image(0, 0, 'bg').setOrigin(0, 0);
@@ -26,10 +34,8 @@ class Tableau1 extends Phaser.Scene {
         //Balle
         this.balle = this.physics.add.sprite(this.largeur/2, this.hauteur/2, 'cercle').setOrigin(0, 0);
         this.balle.setDisplaySize(20,20);
-        this.balle.body.setBounce(1.2,1.2);
-        this.balle.setVelocityX(Phaser.Math.Between(-600,600));
-        this.balle.setVelocityY(Phaser.Math.Between(300,350));
-        this.balle.body.setMaxVelocityX(500);
+        this.balle.body.setBounce(1.1,1.1);
+        this.balle.body.setMaxVelocityX(700);
         this.balle.body.setMaxVelocityY(700);
         this.balle.body.setAllowGravity(false)
 
@@ -69,6 +75,7 @@ class Tableau1 extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.gauche, function(){
             console.log("touche gauche");
             me.rebond(me.gauche);
+            me.soundFX(me.gauche);
         });
 
         this.physics.add.collider(this.balle,this.gauche);
@@ -76,7 +83,9 @@ class Tableau1 extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.droite, function(){
             console.log("touche droit");
             me.rebond(me.droite);
+            me.soundFX(me.droite);
         });
+
 
         this.physics.add.collider(this.balle,this.droite);
 
@@ -85,13 +94,15 @@ class Tableau1 extends Phaser.Scene {
         console.log(this.joueurGauche);
 
         this.balleAucentre();
-
         this.initKeyboard();
     }
 
 
 
-
+    soundFX()
+    {
+        this.hit.play();
+    }
 
     rebond(raquette){
 
@@ -118,9 +129,8 @@ class Tableau1 extends Phaser.Scene {
         this.balle.x = this.largeur/2
         this.balle.y = this.hauteur/2
         this.balle.setVelocityX(0)
-
-        this.balle.setVelocityX(Math.random()>0.5?-100:100)
         this.balle.setVelocityY(0)
+        this.balle.setVelocityX(Math.random()>0.5?-200:200)
     }
 
     win(joueur){
