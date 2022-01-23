@@ -1,8 +1,10 @@
 body{
     font-family: Arial, sans-serif;
     font-size: 12px;
-    background-color: #520084;
+    background-color: #000000;
     text-align: center;
+    background-image:url(background.jpg);
+    background-position:100% 0;
 }
 a{
     display: flow;
@@ -24,9 +26,27 @@ a:visited{
     justify-content: center;
     align-items: center;
     min-height: 90vh;
-
-
 }
 canvas{
     outline: 1px solid #333;
+}
+#scores{
+    color: #bf7bff;
+    font-size : 90px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 5%;
+    width: 100%;
+}
+
+.score{
+    color: #ffffff
+}
+.name{
+    font-size: 3vw;
+}
+
+#scores >* {
+    margin: 25px;
 }
