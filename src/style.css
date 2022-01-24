@@ -1,35 +1,42 @@
 body{
     font-family: Arial, sans-serif;
     font-size: 12px;
-    background-color: #000000;
     text-align: center;
     background-image:url(background.jpg);
-    background-position:100% 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow:hidden;
 }
+
 a{
-    display: flow;
+    display: inline-flex;
     color: #808080;
     text-transform: uppercase;
     text-decoration: none;
     transition: color 1s;
+    align-items: center;
+    text-align: center;
 }
+
 a:hover{
     color: #ff0000;
     text-decoration: underline;
 }
+
 a:visited{
     color: #880000;
 }
+
 #game{
-    margin-bottom: 20px;
-    display: flow;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    min-height: 90vh;
 }
+
 canvas{
     outline: 1px solid #333;
 }
+
 #scores{
     color: #ffffff;
     font-size : 90px;
@@ -43,6 +50,7 @@ canvas{
 .score{
     color: #63f8ff
 }
+
 .name{
     font-size: 3vw;
 }
