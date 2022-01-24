@@ -1,7 +1,7 @@
-var keyS;
-var keyX;
-var keyJ;
-var keyN;
+let keyS;
+let keyX;
+let keyJ;
+let keyN;
 class Tableau1 extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'assets/backgroundjeu.jpg');
@@ -35,7 +35,7 @@ class Tableau1 extends Phaser.Scene {
         this.balle = this.physics.add.sprite(this.largeur/2, this.hauteur/2, 'cercle').setOrigin(0, 0);
         this.balle.setDisplaySize(20,20);
         this.balle.body.setBounce(1.1,1.1);
-        this.balle.body.setMaxVelocityX(700);
+        this.balle.body.setMaxVelocityX(800);
         this.balle.body.setMaxVelocityY(700);
         this.balle.body.setAllowGravity(false)
 
@@ -95,6 +95,7 @@ class Tableau1 extends Phaser.Scene {
 
         this.balleAucentre();
         this.initKeyboard();
+        this.raquetteAucentre()
     }
 
 
@@ -133,11 +134,26 @@ class Tableau1 extends Phaser.Scene {
         this.balle.setVelocityX(Math.random()>0.5?-200:200)
     }
 
+    raquetteAucentre(){
+        this.gauche.x = 10
+        this.gauche.y = this.hauteur/2-50
+
+        this.droite.x = this.largeur-30
+        this.droite.y = this.hauteur/2-50
+
+        this.gauche.setVelocityX(0)
+        this.gauche.setVelocityY(0)
+
+        this.droite.setVelocityX(0)
+        this.droite.setVelocityY(0)
+    }
+
     win(joueur){
         //alert('Joueur '+joueur.name+' gagne')
         joueur.score ++;
         //alert('Le score est de '+this.joueurGauche.score+' a '+this.joueurDroite.score)
         this.balleAucentre();
+        this.raquetteAucentre();
     }
 
     initKeyboard() {
@@ -201,7 +217,7 @@ class Tableau1 extends Phaser.Scene {
             }
         }
     }
-    update() {
+    update(){
 
         if(this.balle.x>this.largeur){
             this.win(this.joueurGauche);
