@@ -9,6 +9,7 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('carre', 'assets/carre.png');
         this.load.image('raquetteg', 'assets/padg.png');
         this.load.image('raquetted', 'assets/padd.png');
+        //FlipX plutot que 2 raquette
 
         this.load.audio('melee', 'assets/son/melee.mp3')
         this.load.audio('hit', 'assets/son/hit.wav')
@@ -22,17 +23,17 @@ class Tableau1 extends Phaser.Scene {
 
         //Son
         this.melee= this.sound.add('melee', {loop: true});
-        this.melee.volume = 0.08;
+        this.melee.volume = 0.1;
         this.melee.play();
 
         this.hit= this.sound.add('hit', {loop: false});
-        this.hit.volume = 0.08;
+        this.hit.volume = 0.1;
 
         //Fond
         this.bg = this.add.image(0, 0, 'bg').setOrigin(0, 0);
 
         //Balle
-        this.balle = this.physics.add.sprite(this.largeur/2, this.hauteur/2, 'cercle').setOrigin(0, 0);
+        this.balle = this.physics.add.sprite(0, 0, 'cercle').setOrigin(0, 0);
         this.balle.setDisplaySize(20,20);
         this.balle.body.setBounce(1.1,1.1);
         this.balle.body.setMaxVelocityX(800);
@@ -53,27 +54,26 @@ class Tableau1 extends Phaser.Scene {
         this.bas.setImmovable(true);
         this.bas.setVisible(false);
 
-        //Collision
-        this.physics.add.collider(this.balle,this.bas);
-        this.physics.add.collider(this.balle,this.haut);
 
         //Raquettes balle/murs
-        this.gauche = this.physics.add.sprite(25, 200,'raquetteg').setOrigin(0, 0);
-        this.gauche.setVelocityY(0);
+        this.gauche = this.physics.add.sprite(0, 0,'raquetteg').setOrigin(0, 0);
         this.gauche.setDisplaySize(20,100);
         this.gauche.body.setAllowGravity(false);
         this.gauche.setImmovable(true);
 
-        this.droite = this.physics.add.sprite(955, 200,'raquetted').setOrigin(0, 0);
-        this.droite.setVelocityY(0);
+
+        this.droite = this.physics.add.sprite(0, 0,'raquetted').setOrigin(0, 0);
         this.droite.setDisplaySize(20,100);
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
 
+        //Collision raquettes/balle
+        this.physics.add.collider(this.balle,this.bas);
+        this.physics.add.collider(this.balle,this.haut);
+
         let me = this;
         //Collision raquettes/balle
         this.physics.add.collider(this.balle,this.gauche, function(){
-            console.log("touche gauche");
             me.rebond(me.gauche);
             me.soundFX(me.gauche);
         });
@@ -81,7 +81,6 @@ class Tableau1 extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.gauche);
 
         this.physics.add.collider(this.balle,this.droite, function(){
-            console.log("touche droit");
             me.rebond(me.droite);
             me.soundFX(me.droite);
         });
@@ -91,7 +90,6 @@ class Tableau1 extends Phaser.Scene {
 
         this.joueurGauche = new Joueur('Fox','joueurGauche');
         this.joueurDroite = new Joueur('Falco','joueurDroite');
-        console.log(this.joueurGauche);
 
         this.balleAucentre();
         this.initKeyboard();
@@ -99,20 +97,17 @@ class Tableau1 extends Phaser.Scene {
     }
 
 
-
     soundFX()
     {
         this.hit.play();
     }
+
 
     rebond(raquette){
 
 
         let me=this;
 
-        console.log(raquette.y)
-        console.log(me.balle.y)
-        console.log((me.balle.y)-(raquette.y))
 
         let hauteurRaquette = raquette.displayHeight;
 
@@ -121,7 +116,6 @@ class Tableau1 extends Phaser.Scene {
         positionRelativeRaquette = (positionRelativeRaquette/hauteurRaquette);
 
         positionRelativeRaquette = (positionRelativeRaquette*2-1);
-        console.log(positionRelativeRaquette);
 
         this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativeRaquette * hauteurRaquette)
     }
@@ -140,18 +134,10 @@ class Tableau1 extends Phaser.Scene {
 
         this.droite.x = this.largeur-30
         this.droite.y = this.hauteur/2-50
-
-        this.gauche.setVelocityX(0)
-        this.gauche.setVelocityY(0)
-
-        this.droite.setVelocityX(0)
-        this.droite.setVelocityY(0)
     }
 
     win(joueur){
-        //alert('Joueur '+joueur.name+' gagne')
         joueur.score ++;
-        //alert('Le score est de '+this.joueurGauche.score+' a '+this.joueurDroite.score)
         this.balleAucentre();
         this.raquetteAucentre();
     }
