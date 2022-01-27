@@ -2,7 +2,13 @@ let gameConfig = {
     type: Phaser.AUTO,
     width: 1000,
     height: 500,
-    backgroundColor: '#000000',
+    scale: {
+        // Fit to window
+        mode: Phaser.Scale.FIT,
+        // Center vertically and horizontally
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
+    scene: [],
     parent: 'game',
     physics: {
         default: 'arcade',
