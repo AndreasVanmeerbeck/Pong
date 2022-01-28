@@ -7,9 +7,9 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('bg', 'assets/backgroundjeu.jpg');
         this.load.image('cercle', 'assets/shine.png');
         this.load.image('carre', 'assets/carre.png');
-        this.load.image('raquetteg', 'assets/padg.png');
-        this.load.image('raquetted', 'assets/padd.png');
-        //FlipX plutot que 2 raquette
+        this.load.image('pad', 'assets/padd.png');
+        this.load.image('shine', 'assets/shineP.png')
+        this.load.image('hitp', 'assets/hitp.png')
 
         this.load.audio('melee', 'assets/son/melee.mp3')
         this.load.audio('hit', 'assets/son/hit.wav')
@@ -40,6 +40,10 @@ class Tableau1 extends Phaser.Scene {
         this.balle.body.setMaxVelocityY(700);
         this.balle.body.setAllowGravity(false)
 
+        this.shine = this.add.image(0, 0, 'shine').setOrigin(0, 0);
+        this.shine.alpha = 0.4;
+
+
         //Mur haut
         this.haut = this.physics.add.sprite(0, 0,'carre').setOrigin(0, 0);
         this.haut.setDisplaySize(this.largeur,5);
@@ -56,13 +60,14 @@ class Tableau1 extends Phaser.Scene {
 
 
         //Raquettes balle/murs
-        this.gauche = this.physics.add.sprite(0, 0,'raquetteg').setOrigin(0, 0);
+        this.gauche = this.physics.add.sprite(0, 0,'pad').setOrigin(0, 0);
         this.gauche.setDisplaySize(20,100);
         this.gauche.body.setAllowGravity(false);
         this.gauche.setImmovable(true);
+        this.gauche.flipX=true;
 
 
-        this.droite = this.physics.add.sprite(0, 0,'raquetted').setOrigin(0, 0);
+        this.droite = this.physics.add.sprite(0, 0,'pad').setOrigin(0, 0);
         this.droite.setDisplaySize(20,100);
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
@@ -76,6 +81,7 @@ class Tableau1 extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.gauche, function(){
             me.rebond(me.gauche);
             me.soundFX(me.gauche);
+            me.particles(me.gauche);
         });
 
         this.physics.add.collider(this.balle,this.gauche);
@@ -83,6 +89,7 @@ class Tableau1 extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.droite, function(){
             me.rebond(me.droite);
             me.soundFX(me.droite);
+            me.particles(me.droite);
         });
 
 
@@ -93,9 +100,22 @@ class Tableau1 extends Phaser.Scene {
 
         this.balleAucentre();
         this.initKeyboard();
-        this.raquetteAucentre()
+        this.raquetteAucentre();
     }
 
+    particles(){
+        let particles = this.add.particles('hitp');
+
+        particles.createEmitter({
+            alpha: { start: 0.25, end: 0 },
+            scale: 0.5,
+            lifespan: { min: 60, max: 120},
+            blendMode: 'ADD',
+            maxParticles: 1,
+            x: this.balle.x+10,
+            y: this.balle.y+10,
+        });
+    }
 
     soundFX()
     {
@@ -204,6 +224,9 @@ class Tableau1 extends Phaser.Scene {
         }
     }
     update(){
+
+        this.shine.x = this.balle.x-50
+        this.shine.y = this.balle.y-55
 
         if(this.balle.x>this.largeur){
             this.win(this.joueurGauche);
