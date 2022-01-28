@@ -8,7 +8,9 @@ class Joueur {
         this.$score.textContent=  this._score
     }
 
-    constructor(name,scoreId) {
+    constructor(name,scoreId,) {
+
+
         this._score = 0;
         this.name = name;
         this.scoreId = scoreId;

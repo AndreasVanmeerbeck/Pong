@@ -33,12 +33,7 @@ class Tableau1 extends Phaser.Scene {
         this.bg = this.add.image(0, 0, 'bg').setOrigin(0, 0);
 
         //Balle
-        this.balle = this.physics.add.sprite(0, 0, 'cercle').setOrigin(0, 0);
-        this.balle.setDisplaySize(20,20);
-        this.balle.body.setBounce(1.1,1.1);
-        this.balle.body.setMaxVelocityX(800);
-        this.balle.body.setMaxVelocityY(700);
-        this.balle.body.setAllowGravity(false)
+        this.Mballe = new Balle(this)
 
         this.shine = this.add.image(0, 0, 'shine').setOrigin(0, 0);
         this.shine.alpha = 0.4;
@@ -73,27 +68,27 @@ class Tableau1 extends Phaser.Scene {
         this.droite.setImmovable(true);
 
         //Collision raquettes/balle
-        this.physics.add.collider(this.balle,this.bas);
-        this.physics.add.collider(this.balle,this.haut);
+        this.physics.add.collider(this.Mballe.balle,this.bas);
+        this.physics.add.collider(this.Mballe.balle,this.haut);
 
         let me = this;
         //Collision raquettes/balle
-        this.physics.add.collider(this.balle,this.gauche, function(){
+        this.physics.add.collider(this.Mballe.balle,this.gauche, function(){
             me.rebond(me.gauche);
             me.soundFX(me.gauche);
             me.particles(me.gauche);
         });
 
-        this.physics.add.collider(this.balle,this.gauche);
+        this.physics.add.collider(this.Mballe.balle,this.gauche);
 
-        this.physics.add.collider(this.balle,this.droite, function(){
+        this.physics.add.collider(this.Mballe.balle,this.droite, function(){
             me.rebond(me.droite);
             me.soundFX(me.droite);
             me.particles(me.droite);
         });
 
 
-        this.physics.add.collider(this.balle,this.droite);
+        this.physics.add.collider(this.Mballe.balle,this.droite);
 
         this.joueurGauche = new Joueur('Fox','joueurGauche');
         this.joueurDroite = new Joueur('Falco','joueurDroite');
@@ -112,8 +107,8 @@ class Tableau1 extends Phaser.Scene {
             lifespan: { min: 60, max: 120},
             blendMode: 'ADD',
             maxParticles: 1,
-            x: this.balle.x+10,
-            y: this.balle.y+10,
+            x: this.Mballe.balle.x+10,
+            y: this.Mballe.balle.y+10,
         });
     }
 
@@ -131,21 +126,21 @@ class Tableau1 extends Phaser.Scene {
 
         let hauteurRaquette = raquette.displayHeight;
 
-        let positionRelativeRaquette =(this.balle.y-raquette.y);
+        let positionRelativeRaquette =(this.Mballe.balle.y-raquette.y);
 
         positionRelativeRaquette = (positionRelativeRaquette/hauteurRaquette);
 
         positionRelativeRaquette = (positionRelativeRaquette*2-1);
 
-        this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativeRaquette * hauteurRaquette)
+        this.Mballe.balle.setVelocityY( this.Mballe.balle.body.velocity.y + positionRelativeRaquette * hauteurRaquette)
     }
 
     balleAucentre(){
-        this.balle.x = this.largeur/2
-        this.balle.y = this.hauteur/2
-        this.balle.setVelocityX(0)
-        this.balle.setVelocityY(0)
-        this.balle.setVelocityX(Math.random()>0.5?-200:200)
+        this.Mballe.balle.x = this.largeur/2
+        this.Mballe.balle.y = this.hauteur/2
+        this.Mballe.balle.setVelocityX(0)
+        this.Mballe.balle.setVelocityY(0)
+        this.Mballe.balle.setVelocityX(Math.random()>0.5?-200:200)
     }
 
     raquetteAucentre(){
@@ -225,13 +220,13 @@ class Tableau1 extends Phaser.Scene {
     }
     update(){
 
-        this.shine.x = this.balle.x-50
-        this.shine.y = this.balle.y-55
+        this.shine.x = this.Mballe.balle.x-50
+        this.shine.y = this.Mballe.balle.y-55
 
-        if(this.balle.x>this.largeur){
+        if(this.Mballe.balle.x>this.largeur){
             this.win(this.joueurGauche);
         }
-        if(this.balle.x<0){
+        if(this.Mballe.balle.x<0){
             this.win(this.joueurDroite);
         }
         this.initKeyboard();
