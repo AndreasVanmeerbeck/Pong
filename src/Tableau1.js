@@ -8,7 +8,7 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('cercle', 'assets/shine.png');
         this.load.image('carre', 'assets/carre.png');
         this.load.image('pad', 'assets/padd.png');
-        this.load.image('shine', 'assets/shineP.png')
+        this.load.image('shine', 'assets/shinep.png')
         this.load.image('hitp', 'assets/hitp.png')
 
         this.load.audio('melee', 'assets/son/melee.mp3')
